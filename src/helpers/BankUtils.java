@@ -13,6 +13,8 @@ public final class BankUtils extends MethodProvider {
 
     private Area[] depositBoxLocations = new Area[]{new Area(3044, 3236, 3047, 3235)};
 
+    private Area[] combinedArrays;
+
     private BankUtils() { }
 
     public static BankUtils getInstance() {
@@ -31,8 +33,9 @@ public final class BankUtils extends MethodProvider {
     }
 
     public boolean walkToNearestDepositSpot() {
-        Area[] areas = ArrayUtils.getInstance().addAreaArrays(banks, depositBoxLocations);
-        return getWalking().webWalk(areas);
+        if (combinedArrays == null)
+            combinedArrays = ArrayUtils.getInstance().addAreaArrays(banks, depositBoxLocations);
+        return getWalking().webWalk(combinedArrays);
     }
 
     public boolean openBankOrDepositBox() throws InterruptedException {

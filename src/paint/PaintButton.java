@@ -16,9 +16,14 @@ public abstract class PaintButton {
     private BotMouseListener mouseListener;
     private Color textColor, backgroundButtonColor;
 
-    private final Font textFont = new Font("Sans Serif", Font.PLAIN, 14);
+    private Font textFont = new Font("Sans Serif", Font.PLAIN, 14);
 
     public PaintButton(Int4 dimensions, String text, Bot bot) {
+        initialize(text, dimensions, bot);
+    }
+
+    public PaintButton(Int4 dimensions, String text, Font textFont, Bot bot) {
+        this.textFont = textFont;
         initialize(text, dimensions, bot);
     }
 
@@ -58,7 +63,7 @@ public abstract class PaintButton {
     }
 
     private void fillButton(Graphics2D g) {
-        g.setColor(Color.darkGray.darker());
+        g.setColor(backgroundButtonColor.darker());
         g.fill(new Rectangle2D.Float(
                 (float) rectangle2D.getX() - 3,
                 (float) rectangle2D.getY() - 3,

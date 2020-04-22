@@ -117,7 +117,7 @@ public class OSBotScript extends Script {
     }
 
     private void initializeButtons() {
-        paintStateButton = new PaintButton(new Int4(410, 300, 100, 30), "Disable Paint", bot) {
+        paintStateButton = new PaintButton(new Int4(15, 300, 100, 30), "Disable Paint", bot) {
             @Override
             public void onClick() {
                 paintEnabled = !paintEnabled;
