@@ -1,5 +1,6 @@
 package core;
 
+import data.Int4;
 import enums.BotStates;
 import enums.FishTypes;
 import enums.Locations;
@@ -9,6 +10,7 @@ import helpers.Utils;
 import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
+import paint.PaintButton;
 import tasks.*;
 import tasks.core.Task;
 
@@ -22,11 +24,14 @@ public class OSBotScript extends Script {
     private static Task currentTask;
     private static FishTypes selectedFishType;
     private static Locations selectedLocation;
-    private static boolean isBankingEnabled;
+    private static boolean isBankingEnabled, paintEnabled = true;
     private static ToolTypes selectedToolType;
 
     private Point[] points = new Point[50];
     private int currentPointToSet;
+    private PaintButton paintStateButton;
+
+    public static boolean debugMode = true;
 
     @Override
     public void onStart() throws InterruptedException {
@@ -34,6 +39,7 @@ public class OSBotScript extends Script {
         MainDialog.getInstance().show();
         runInitialChecks();
         initializeTasks();
+        initializeButtons();
     }
 
     @Override
@@ -63,7 +69,10 @@ public class OSBotScript extends Script {
 
     @Override
     public void onPaint(Graphics2D g) {
-        drawMouse(g);
+        if (paintEnabled) {
+            drawMouse(g);
+        }
+        paintStateButton.drawButton(g);
     }
 
     private void drawMouse(Graphics2D g) {
@@ -102,6 +111,16 @@ public class OSBotScript extends Script {
         TaskBank taskBank = new TaskBank(bot, selectedToolType, isBankingEnabled);
         BotStates.BANK.setTask(taskBank);
         log("Initialization complete.");
+    }
+
+    private void initializeButtons() {
+        paintStateButton = new PaintButton(new Int4(410, 300, 100, 30), "Disable Paint", bot) {
+            @Override
+            public void onClick() {
+                paintEnabled = !paintEnabled;
+                setText((paintEnabled) ? "Disable Paint" : "Enable Paint");
+            }
+        };
     }
 
     private void runInitialChecks() {
