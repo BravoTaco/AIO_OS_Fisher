@@ -24,7 +24,7 @@ public class OSBotScript extends Script {
     private static Task currentTask;
     private static FishTypes selectedFishType;
     private static Locations selectedLocation;
-    private static boolean isBankingEnabled, paintEnabled = true;
+    private static boolean isBankingEnabled, paintEnabled = true, initializationsComplete;
     private static ToolTypes selectedToolType;
 
     private Point[] points = new Point[50];
@@ -40,6 +40,7 @@ public class OSBotScript extends Script {
         runInitialChecks();
         initializeTasks();
         initializeButtons();
+        initializationsComplete = true;
     }
 
     @Override
@@ -69,10 +70,12 @@ public class OSBotScript extends Script {
 
     @Override
     public void onPaint(Graphics2D g) {
-        if (paintEnabled) {
-            drawMouse(g);
+        if (initializationsComplete) {
+            if (paintEnabled) {
+                drawMouse(g);
+            }
+            paintStateButton.drawButton(g);
         }
-        paintStateButton.drawButton(g);
     }
 
     private void drawMouse(Graphics2D g) {
