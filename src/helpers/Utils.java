@@ -21,6 +21,8 @@ public final class Utils extends MethodProvider {
     private Area[] banks = new Area[]{Banks.LUMBRIDGE_UPPER, Banks.VARROCK_WEST, Banks.VARROCK_EAST,
             Banks.FALADOR_WEST, Banks.FALADOR_EAST, Banks.DRAYNOR, Banks.EDGEVILLE, Banks.AL_KHARID};
 
+    private Area[] depositBoxLocations = new Area[]{new Area(3049, 3247, 3052, 3246)};
+
     private Utils(Bot bot) {
         exchangeContext(bot);
     }
@@ -131,25 +133,20 @@ public final class Utils extends MethodProvider {
     }
 
     public boolean depositAllItemsExcept(String... itemsToKeep) throws InterruptedException {
-        if (getBank().isOpen() && getBank().depositAllExcept(itemsToKeep)) {
-            return getBank().close();
-        } else if (!getBank().isOpen()) {
-            if (getBank().open()) {
+        if (bankOrDepositBoxIsOpen() && bankOrDepositBoxDepositAllExcept(itemsToKeep)) {
+            closeBankOrDepositBox();
+            return getInventory().isEmptyExcept(itemsToKeep);
+        } else if (!bankOrDepositBoxIsOpen()) {
+            if (openBankOrDepositBox()) {
                 depositAllItemsExcept(itemsToKeep);
             } else {
-                if (walkToNearestBank()) {
+                if (walkToNearestDepositSpot()) {
                     depositAllItemsExcept(itemsToKeep);
                 } else {
-                    log("Unable to walk to the closest bank.");
+                    log("Unable to walk to the closest deposit spot.");
                     getBot().getScriptExecutor().stop(false);
                     return false;
                 }
-            }
-        } else if (!getBank().depositAllExcept(itemsToKeep)) {
-            if (getBank().close()) {
-                log("Unable to deposit items.");
-                getBot().getScriptExecutor().stop(false);
-                return false;
             }
         }
         return false;
@@ -177,5 +174,41 @@ public final class Utils extends MethodProvider {
 
     public boolean walkToNearestBank() {
         return getWalking().webWalk(banks);
+    }
+
+    public boolean walkToNearestDepositSpot() {
+        return getWalking().webWalk((Area[]) addArrays(banks, depositBoxLocations));
+    }
+
+    public boolean openBankOrDepositBox() throws InterruptedException {
+        return getBank().open() || getDepositBox().open();
+    }
+
+    public boolean bankOrDepositBoxIsOpen() {
+        return getBank().isOpen() || getDepositBox().isOpen();
+    }
+
+    public boolean bankOrDepositBoxDepositAllExcept(String... itemNames) {
+        return getBank().depositAllExcept(itemNames) || getDepositBox().depositAllExcept(itemNames);
+    }
+
+    public boolean closeBankOrDepositBox() {
+        return getBank().close() || getDepositBox().close();
+    }
+
+    public Object[] addArrays(Object[]... objects) {
+        int totalSize = 0;
+        for (Object[] temp : objects) {
+            totalSize += temp.length;
+        }
+        int i = 0;
+        Object[] tempArray = new Object[totalSize];
+        for (Object[] temp : objects) {
+            for (Object o : temp) {
+                tempArray[i] = o;
+                i++;
+            }
+        }
+        return tempArray;
     }
 }

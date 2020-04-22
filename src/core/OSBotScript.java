@@ -111,7 +111,7 @@ public class OSBotScript extends Script {
         BotStates.FISH.setTask(taskFishing);
         TaskDrop taskDrop = new TaskDrop(bot, selectedToolType, isBankingEnabled);
         BotStates.DROP.setTask(taskDrop);
-        TaskBank taskBank = new TaskBank(bot, selectedToolType, isBankingEnabled);
+        TaskBank taskBank = new TaskBank(bot, selectedToolType, selectedFishType, isBankingEnabled);
         BotStates.BANK.setTask(taskBank);
         log("Initialization complete.");
     }

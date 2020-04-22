@@ -1,5 +1,6 @@
 package tasks;
 
+import enums.FishTypes;
 import enums.ToolTypes;
 import helpers.Utils;
 import org.osbot.rs07.Bot;
@@ -8,11 +9,13 @@ import tasks.core.Task;
 public class TaskBank extends Task {
     private boolean isBankingEnabled = false;
     private ToolTypes toolType;
+    private FishTypes selectedFishType;
 
-    public TaskBank(Bot bot, ToolTypes toolType, boolean isBankingEnabled) {
+    public TaskBank(Bot bot, ToolTypes toolType, FishTypes selectedFishType, boolean isBankingEnabled) {
         super(bot, "Banking Task");
         this.isBankingEnabled = isBankingEnabled;
         this.toolType = toolType;
+        this.selectedFishType = selectedFishType;
     }
 
     @Override
@@ -22,7 +25,10 @@ public class TaskBank extends Task {
 
     @Override
     protected boolean onExecute() throws InterruptedException {
-        return Utils.getInstance().depositAllItemsExcept(toolType.getToolName(), toolType.getBaitName());
+        String[] itemsToKeep = (selectedFishType.requiresCoins()) ?
+                new String[]{toolType.getToolName(), toolType.getBaitName(), "Coins"} :
+                new String[]{toolType.getToolName(), toolType.getBaitName()};
+        return Utils.getInstance().depositAllItemsExcept(itemsToKeep);
     }
 
     @Override

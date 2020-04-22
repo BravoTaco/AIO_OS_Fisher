@@ -9,7 +9,7 @@ public enum Locations {
     AL_KHARID(new Position(3272, 3144, 0)),
     DRAYNOR_VILLAGE(new Position(3089, 3229, 0)),
     BARBARIAN_VILLAGE(new Position(3104, 3430, 0)),
-    KARAMJA(new Position(2905, 3187, 0));
+    KARAMJA(new Position(2924, 3178, 0));
 
     Position position;
 
