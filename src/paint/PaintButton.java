@@ -1,7 +1,7 @@
 package paint;
 
 import data.Int4;
-import helpers.Utils;
+import helpers.PaintUtils;
 import org.osbot.rs07.Bot;
 import org.osbot.rs07.input.mouse.BotMouseListener;
 
@@ -27,12 +27,12 @@ public abstract class PaintButton {
 
         fillButton(g);
 
-        if (rectangle2D.getBounds().contains(Utils.getInstance().getMousePoint()))
+        if (rectangle2D.getBounds().contains(PaintUtils.getInstance().getMousePoint()))
             onHover();
         else
             onNotHover();
 
-        Utils.getInstance().drawCenteredString(g, rectangle2D, text, textColor);
+        PaintUtils.getInstance().drawCenteredString(g, rectangle2D, text, textColor);
     }
 
     public void setText(String text) {
@@ -81,7 +81,7 @@ public abstract class PaintButton {
         mouseListener = new BotMouseListener() {
             @Override
             public void checkMouseEvent(MouseEvent mouseEvent) {
-                if (rectangle2D.getBounds().contains(Utils.getInstance().getMousePoint()) && mouseEvent.getID() == MouseEvent.MOUSE_CLICKED) {
+                if (rectangle2D.getBounds().contains(PaintUtils.getInstance().getMousePoint()) && mouseEvent.getID() == MouseEvent.MOUSE_CLICKED) {
                     mouseEvent.consume();
                     click();
                 }

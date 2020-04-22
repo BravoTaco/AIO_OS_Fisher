@@ -2,7 +2,8 @@ package tasks;
 
 import enums.FishTypes;
 import enums.ToolTypes;
-import helpers.Utils;
+import helpers.FishingUtils;
+import helpers.SleepUtils;
 import org.osbot.rs07.Bot;
 import org.osbot.rs07.api.model.NPC;
 import tasks.core.Task;
@@ -21,8 +22,8 @@ public class TaskFishing extends Task {
     @Override
     protected boolean canExecute() {
         if (selectedFishType == null) return false;
-        return Utils.getInstance().hasFishingSupplies(selectedToolType) &&
-                Utils.getInstance().fishingSpotExists(selectedToolType) &&
+        return FishingUtils.getInstance().hasFishingSupplies(selectedToolType) &&
+                FishingUtils.getInstance().fishingSpotExists(selectedToolType) &&
                 !getInventory().isFull() || myPlayer().isAnimating();
     }
 
@@ -36,12 +37,12 @@ public class TaskFishing extends Task {
                 getCamera().moveYaw(random(10, 90));
             }
             getMouse().moveOutsideScreen();
-            Utils.getInstance().sleepUntil(() -> !myPlayer().isAnimating(), random(10000, 80000), 100);
+            SleepUtils.getInstance().sleepUntil(() -> !myPlayer().isAnimating(), random(10000, 80000), 100);
             return true;
         } else if (!myPlayer().isAnimating()) {
-            NPC fishingSpot = Utils.getInstance().getFishingSpot(selectedToolType);
+            NPC fishingSpot = FishingUtils.getInstance().getFishingSpot(selectedToolType);
             if (fishingSpot != null && fishingSpot.interact(selectedToolType.getAction())) {
-                return Utils.getInstance().sleepUntil(() -> myPlayer().isAnimating(), 10000, 100);
+                return SleepUtils.getInstance().sleepUntil(() -> myPlayer().isAnimating(), 10000, 100);
             } else if (fishingSpot == null) {
                 log("Fishing spot does not exist...");
                 return false;

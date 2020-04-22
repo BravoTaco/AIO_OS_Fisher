@@ -6,7 +6,7 @@ import enums.FishTypes;
 import enums.Locations;
 import enums.ToolTypes;
 import gui.core.MainDialog;
-import helpers.Utils;
+import helpers.*;
 import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
@@ -35,7 +35,7 @@ public class OSBotScript extends Script {
 
     @Override
     public void onStart() throws InterruptedException {
-        Utils.initializeInstance(bot);
+        initializeUtils();
         MainDialog.getInstance().show();
         runInitialChecks();
         initializeTasks();
@@ -46,7 +46,7 @@ public class OSBotScript extends Script {
     @Override
     public int onLoop() throws InterruptedException {
 
-        currentBotState = Utils.getInstance().getCurrentBotState();
+        currentBotState = GeneralUtils.getInstance().getCurrentBotState();
 
         if (currentBotState != null) {
             currentTask = currentBotState.getTask();
@@ -139,5 +139,14 @@ public class OSBotScript extends Script {
         if (selectedFishType.getLevelRequired() > getSkills().getStatic(Skill.FISHING)) stop(false);
         if (selectedFishType.isMembers() && !getWorlds().isMembersWorld() || selectedToolType.isMembers() && !getWorlds().isMembersWorld())
             stop(false);
+    }
+
+    private void initializeUtils() {
+        GeneralUtils.initializeInstance(bot);
+        BankUtils.initializeInstance(bot);
+        SleepUtils.initializeInstance(bot);
+        ArrayUtils.initializeInstance(bot);
+        PaintUtils.initializeInstance(bot);
+        FishingUtils.initializeInstance(bot);
     }
 }

@@ -1,7 +1,8 @@
 package tasks;
 
 import enums.ToolTypes;
-import helpers.Utils;
+import helpers.BankUtils;
+import helpers.FishingUtils;
 import org.osbot.rs07.Bot;
 import tasks.core.Task;
 
@@ -16,16 +17,16 @@ public class TaskRetrieveSupplies extends Task {
 
     @Override
     protected boolean canExecute() {
-        return !Utils.getInstance().hasFishingSupplies(selectedToolType);
+        return !FishingUtils.getInstance().hasFishingSupplies(selectedToolType);
     }
 
     @Override
     protected boolean onExecute() throws InterruptedException {
 
         if (needBait() && needTool()) {
-            if (Utils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, false)) {
+            if (BankUtils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, false)) {
                 log("Retrieved " + selectedToolType.getToolName() + " from the bank...");
-                if (Utils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), true)) {
+                if (BankUtils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), true)) {
                     log("Retrieved " + selectedToolType.getBaitName() + " from the bank...");
                     return true;
                 } else {
@@ -35,9 +36,9 @@ public class TaskRetrieveSupplies extends Task {
                 log("Unable to retrieve " + selectedToolType.getToolName() + " from the bank...");
             }
         } else if (needTool()) {
-            return Utils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, true);
+            return BankUtils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, true);
         } else if (needBait()) {
-            return Utils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), true);
+            return BankUtils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), true);
         }
 
         return false;

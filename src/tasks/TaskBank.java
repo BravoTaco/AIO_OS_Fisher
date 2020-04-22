@@ -2,7 +2,7 @@ package tasks;
 
 import enums.FishTypes;
 import enums.ToolTypes;
-import helpers.Utils;
+import helpers.BankUtils;
 import org.osbot.rs07.Bot;
 import tasks.core.Task;
 
@@ -28,7 +28,7 @@ public class TaskBank extends Task {
         String[] itemsToKeep = (selectedFishType.requiresCoins()) ?
                 new String[]{toolType.getToolName(), toolType.getBaitName(), "Coins"} :
                 new String[]{toolType.getToolName(), toolType.getBaitName()};
-        return Utils.getInstance().depositAllItemsExcept(itemsToKeep);
+        return BankUtils.getInstance().depositAllItemsExcept(itemsToKeep);
     }
 
     @Override

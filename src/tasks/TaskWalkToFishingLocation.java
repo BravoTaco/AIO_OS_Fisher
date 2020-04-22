@@ -2,7 +2,7 @@ package tasks;
 
 import enums.Locations;
 import enums.ToolTypes;
-import helpers.Utils;
+import helpers.FishingUtils;
 import org.osbot.rs07.Bot;
 import tasks.core.Task;
 
@@ -18,7 +18,7 @@ public class TaskWalkToFishingLocation extends Task {
 
     @Override
     protected boolean canExecute() {
-        return Utils.getInstance().hasFishingSupplies(selectedToolType) &&
+        return FishingUtils.getInstance().hasFishingSupplies(selectedToolType) &&
                 !selectedLocation.getPosition().isOnMiniMap(getBot()) && !getInventory().isFull();
     }
 
