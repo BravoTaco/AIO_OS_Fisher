@@ -1,6 +1,7 @@
 package core;
 
 import data.Int4;
+import data.StoredInformation;
 import enums.BotStates;
 import enums.FishTypes;
 import enums.Locations;
@@ -13,7 +14,6 @@ import org.osbot.rs07.script.ScriptManifest;
 import paint.PaintButton;
 import paint.PaintInformationBase;
 import tasks.*;
-import tasks.core.Task;
 
 import java.awt.*;
 
@@ -21,42 +21,34 @@ import java.awt.*;
         author = "BravoTaco", name = "AIO OS Fisher")
 public class OSBotScript extends Script {
 
-    private BotStates currentBotState;
-    private Task currentTask;
-    private FishTypes selectedFishType;
-    private Locations selectedLocation;
-    private boolean isBankingEnabled, paintEnabled = true, initializationsComplete;
-    private ToolTypes selectedToolType;
-
-    private Point[] points = new Point[50];
-    private int currentPointToSet;
-    private PaintButton paintStateButton;
-    private PaintInformationBase paintInformationBase;
+    private StoredInformation storedInformation;
 
     @Override
     public void onStart() throws InterruptedException {
+        storedInformation = new StoredInformation();
         initializeUtils();
         MainDialog.getInstance().show();
         runInitialChecks();
         initializeTasks();
         initializeButtons();
         initializeInformationPaint();
-        initializationsComplete = true;
+        storedInformation.getGeneralStoredInformation().setInitializationsComplete(true);
     }
 
     @Override
     public int onLoop() throws InterruptedException {
 
-        currentBotState = GeneralUtils.getInstance().getCurrentBotState();
+        storedInformation.getGeneralStoredInformation().setCurrentBotState(GeneralUtils.getInstance().getCurrentBotState());
 
-        if (currentBotState != null) {
-            currentTask = currentBotState.getTask();
+        if (storedInformation.getGeneralStoredInformation().getCurrentBotState() != null) {
+            storedInformation.getGeneralStoredInformation().
+                    setCurrentTask(storedInformation.getGeneralStoredInformation().getCurrentBotState().getTask());
         } else {
             warn("Current bot state is NULL");
         }
 
-        if (currentTask != null) {
-            currentTask.execute();
+        if (storedInformation.getGeneralStoredInformation().getCurrentTask() != null) {
+            storedInformation.getGeneralStoredInformation().getCurrentTask().execute();
         } else {
             warn("Current task is NULL");
         }
@@ -71,16 +63,18 @@ public class OSBotScript extends Script {
 
     @Override
     public void onPaint(Graphics2D g) {
-        if (initializationsComplete) {
-            if (paintEnabled) {
+        if (storedInformation.getGeneralStoredInformation().isInitializationsComplete()) {
+            if (storedInformation.getPaintStoredInformation().isPaintEnabled()) {
                 drawMouse(g);
-                paintInformationBase.drawComponent(g);
+                storedInformation.getPaintStoredInformation().getPaintInformationBase().drawComponent(g);
             }
-            paintStateButton.drawComponent(g);
+            storedInformation.getPaintStoredInformation().getPaintStateButton().drawComponent(g);
         }
     }
 
     private void drawMouse(Graphics2D g) {
+        int currentPointToSet = storedInformation.getPaintStoredInformation().getCurrentPointToSet();
+        Point[] points = storedInformation.getPaintStoredInformation().getPoints();
         if (currentPointToSet == points.length)
             currentPointToSet = 0;
         Point mousePoint = getMouse().getPosition();
@@ -100,10 +94,14 @@ public class OSBotScript extends Script {
                 g.drawLine(points[i + 1].x, points[i + 1].y, points[0].x, points[0].y);
             }
         }
-        currentPointToSet++;
+        storedInformation.getPaintStoredInformation().setCurrentPointToSet(currentPointToSet + 1);
     }
 
     private void initializeTasks() throws InterruptedException {
+        ToolTypes selectedToolType = storedInformation.getGeneralStoredInformation().getSelectedToolType();
+        Locations selectedLocation = storedInformation.getGeneralStoredInformation().getSelectedLocation();
+        FishTypes selectedFishType = storedInformation.getGeneralStoredInformation().getSelectedFishType();
+        boolean isBankingEnabled = storedInformation.getGeneralStoredInformation().isBankingEnabled();
         log("Initializing tasks...");
         TaskRetrieveSupplies taskRetrieveSupplies = new TaskRetrieveSupplies(bot, selectedToolType);
         BotStates.RETRIEVE_SUPPLIES.setTask(taskRetrieveSupplies);
@@ -119,17 +117,19 @@ public class OSBotScript extends Script {
     }
 
     private void initializeButtons() {
-        paintStateButton = new PaintButton(new Int4(15, 300, 100, 30), "Disable Paint", bot) {
+        storedInformation.getPaintStoredInformation().setPaintStateButton(new PaintButton(new Int4(15, 300, 100, 30),
+                "Disable Paint", bot) {
             @Override
             public void onClick() {
-                paintEnabled = !paintEnabled;
-                setText((paintEnabled) ? "Disable Paint" : "Enable Paint");
+                storedInformation.getPaintStoredInformation().setPaintEnabled(
+                        !storedInformation.getPaintStoredInformation().isPaintEnabled());
+                setText((storedInformation.getPaintStoredInformation().isPaintEnabled()) ? "Disable Paint" : "Enable Paint");
             }
-        };
+        });
     }
 
     private void initializeInformationPaint() {
-        paintInformationBase = new PaintInformationBase(new Int4(15, 60, 180, 230));
+        storedInformation.getPaintStoredInformation().setPaintInformationBase(new PaintInformationBase(new Int4(15, 60, 180, 230)));
     }
 
     private void runInitialChecks() {
@@ -137,14 +137,25 @@ public class OSBotScript extends Script {
             stop(false);
             return;
         } else {
-            selectedFishType = (FishTypes) MainDialog.getInstance().getFishSelector().getFishTypesJComboBox().getSelectedItem();
-            selectedLocation = (Locations) MainDialog.getInstance().getLocationSelector().getLocationsJComboBox().getSelectedItem();
-            isBankingEnabled = MainDialog.getInstance().getFishingModeSelector().getBankingCB().isSelected();
-            selectedToolType = (ToolTypes) MainDialog.getInstance().getToolSelector().getToolTypesJComboBox().getSelectedItem();
+            FishTypes selectedFishType = (FishTypes) MainDialog.getInstance().getFishSelector().getFishTypesJComboBox().getSelectedItem();
+            Locations selectedLocation = (Locations) MainDialog.getInstance().getLocationSelector().getLocationsJComboBox().getSelectedItem();
+            ToolTypes selectedToolType = (ToolTypes) MainDialog.getInstance().getToolSelector().getToolTypesJComboBox().getSelectedItem();
+            boolean isBankingEnabled = MainDialog.getInstance().getFishingModeSelector().getBankingCB().isSelected();
+            storedInformation.getGeneralStoredInformation().setSelectedFishType(selectedFishType);
+            storedInformation.getGeneralStoredInformation().setSelectedLocation(selectedLocation);
+            storedInformation.getGeneralStoredInformation().setSelectedToolType(selectedToolType);
+            storedInformation.getGeneralStoredInformation().setBankingEnabled(isBankingEnabled);
         }
-        if (selectedFishType.getLevelRequired() > getSkills().getStatic(Skill.FISHING)) stop(false);
-        if (selectedFishType.isMembers() && !getWorlds().isMembersWorld() || selectedToolType.isMembers() && !getWorlds().isMembersWorld())
+        if (storedInformation.getGeneralStoredInformation().getSelectedFishType().getLevelRequired()
+                > getSkills().getStatic(Skill.FISHING)) {
             stop(false);
+            log("You do not have the fishing level required for the selected fish type.");
+        }
+        if (storedInformation.getGeneralStoredInformation().getSelectedFishType().isMembers() && !getWorlds().isMembersWorld()
+                || storedInformation.getGeneralStoredInformation().getSelectedToolType().isMembers() && !getWorlds().isMembersWorld()) {
+            stop(false);
+            log("The fish type or the selected tool is members only and you are on a F2P world.");
+        }
     }
 
     private void initializeUtils() {
