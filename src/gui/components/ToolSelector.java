@@ -19,10 +19,10 @@ public class ToolSelector {
                 componentToAddTo, BorderLayoutPositions.NONE);
 
         mainPanel = new JPanel(new FlowLayout());
-        SwingUtils.initializeComponent(mainPanel, BorderFactory.createRaisedBevelBorder(),
+        SwingUtils.initializeComponent(mainPanel, BorderFactory.createEmptyBorder(),
                 spacer, BorderLayoutPositions.NONE);
 
-        label = new JLabel("Select fishing tool");
+        label = new JLabel("Select fishing tool: ");
         SwingUtils.initializeComponent(label, BorderFactory.createEmptyBorder(5, 5, 5, 5),
                 mainPanel, BorderLayoutPositions.NONE);
 

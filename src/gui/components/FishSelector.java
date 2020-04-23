@@ -18,7 +18,7 @@ public class FishSelector {
                 componentToAddTo, BorderLayoutPositions.NONE);
 
         mainPanel = new JPanel(new FlowLayout());
-        SwingUtils.initializeComponent(mainPanel, BorderFactory.createRaisedBevelBorder(),
+        SwingUtils.initializeComponent(mainPanel, BorderFactory.createEmptyBorder(),
                 spacer, BorderLayoutPositions.NONE);
 
         label = new JLabel("Select type of fish: ");

@@ -19,7 +19,7 @@ public class FishingModeSelector {
                 componentToAddTo, BorderLayoutPositions.NONE);
 
         mainPanel = new JPanel(new FlowLayout());
-        SwingUtils.initializeComponent(mainPanel, BorderFactory.createRaisedBevelBorder(),
+        SwingUtils.initializeComponent(mainPanel, BorderFactory.createEmptyBorder(),
                 spacer, BorderLayoutPositions.NONE);
 
         bankingCB = new JCheckBox("Enable banking");
