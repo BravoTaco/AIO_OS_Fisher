@@ -4,12 +4,13 @@ import data.Int4;
 import helpers.PaintUtils;
 import org.osbot.rs07.Bot;
 import org.osbot.rs07.input.mouse.BotMouseListener;
+import paint.core.PaintComponent;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-public abstract class PaintButton {
+public abstract class PaintButton implements PaintComponent {
     private Int4 dimensions;
     private String text;
     private Rectangle2D rectangle2D;
@@ -27,7 +28,8 @@ public abstract class PaintButton {
         initialize(text, dimensions, bot);
     }
 
-    public void drawButton(Graphics2D g) {
+    @Override
+    public void drawComponent(Graphics2D g) {
         g.setFont(textFont);
 
         fillButton(g);

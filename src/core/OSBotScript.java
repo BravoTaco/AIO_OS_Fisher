@@ -11,6 +11,7 @@ import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
 import paint.PaintButton;
+import paint.PaintInformationBase;
 import tasks.*;
 import tasks.core.Task;
 
@@ -20,18 +21,17 @@ import java.awt.*;
         author = "BravoTaco", name = "AIO OS Fisher")
 public class OSBotScript extends Script {
 
-    private static BotStates currentBotState;
-    private static Task currentTask;
-    private static FishTypes selectedFishType;
-    private static Locations selectedLocation;
-    private static boolean isBankingEnabled, paintEnabled = true, initializationsComplete;
-    private static ToolTypes selectedToolType;
+    private BotStates currentBotState;
+    private Task currentTask;
+    private FishTypes selectedFishType;
+    private Locations selectedLocation;
+    private boolean isBankingEnabled, paintEnabled = true, initializationsComplete;
+    private ToolTypes selectedToolType;
 
     private Point[] points = new Point[50];
     private int currentPointToSet;
     private PaintButton paintStateButton;
-
-    public static boolean debugMode = true;
+    private PaintInformationBase paintInformationBase;
 
     @Override
     public void onStart() throws InterruptedException {
@@ -40,6 +40,7 @@ public class OSBotScript extends Script {
         runInitialChecks();
         initializeTasks();
         initializeButtons();
+        initializeInformationPaint();
         initializationsComplete = true;
     }
 
@@ -73,8 +74,9 @@ public class OSBotScript extends Script {
         if (initializationsComplete) {
             if (paintEnabled) {
                 drawMouse(g);
+                paintInformationBase.drawComponent(g);
             }
-            paintStateButton.drawButton(g);
+            paintStateButton.drawComponent(g);
         }
     }
 
@@ -124,6 +126,10 @@ public class OSBotScript extends Script {
                 setText((paintEnabled) ? "Disable Paint" : "Enable Paint");
             }
         };
+    }
+
+    private void initializeInformationPaint() {
+        paintInformationBase = new PaintInformationBase(new Int4(15, 60, 180, 230));
     }
 
     private void runInitialChecks() {
