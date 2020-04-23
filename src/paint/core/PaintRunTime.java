@@ -15,7 +15,7 @@ public class PaintRunTime extends PaintTextBox {
     }
 
     @Override
-    public void onTextUpdate() {
+    public void onBeforeDrawText(Graphics2D g) {
         text = "Runtime: " + FormatUtils.formatTime(storedInformation.getPaintStoredInformation().getRunTime());
     }
 }
