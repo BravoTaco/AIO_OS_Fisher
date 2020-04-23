@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class PaintInformationBase implements PaintComponent {
     private Rectangle2D backgroundRectangle;
     private Rectangle2D borderRectangle;
-    private Int4 dimensions;
     private ArrayList<PaintComponent> paintComponents;
     private Color backgroundColor;
 
@@ -20,8 +19,11 @@ public class PaintInformationBase implements PaintComponent {
     private PaintXpPerHour paintXpPerHour;
     private PaintTotalFishCaught paintTotalFishCaught;
 
+    private int padding = 15;
+    private int borderOffset = 3;
+    private int componentHeights = 20;
+
     public PaintInformationBase(Int4 dimensions, StoredInformation storedInformation) {
-        this.dimensions = dimensions;
         backgroundColor = Color.darkGray;
         backgroundRectangle = new Rectangle2D.Float(dimensions.getX(), dimensions.getY(), dimensions.getZ(), dimensions.getW());
         borderRectangle = new Rectangle2D.Float(dimensions.getX() - 3, dimensions.getY() - 3, dimensions.getZ() + 6, dimensions.getW() + 6);
@@ -49,10 +51,12 @@ public class PaintInformationBase implements PaintComponent {
         for (PaintComponent paintComponent : paintComponents) {
             if (paintComponent instanceof PaintTextBox) {
                 ((PaintTextBox) paintComponent).backgroundRectangle.setRect(
-                        backgroundRectangle.getX() + 15, backgroundRectangle.getY() + y, backgroundRectangle.getWidth() - 30, 20);
+                        backgroundRectangle.getX() + padding, backgroundRectangle.getY() + y,
+                        backgroundRectangle.getWidth() - padding * 2, componentHeights);
                 ((PaintTextBox) paintComponent).borderBackgroundRectangle.setRect(
-                        backgroundRectangle.getX() + 15 - 3, backgroundRectangle.getY() + y - 3, backgroundRectangle.getWidth() - 30 + 6, 20 + 6);
-                y += 30;
+                        backgroundRectangle.getX() + padding - borderOffset, backgroundRectangle.getY() + y - borderOffset,
+                        backgroundRectangle.getWidth() - padding * 2 + borderOffset * 2, componentHeights + borderOffset * 2);
+                y += componentHeights + padding;
             }
             paintComponent.drawComponent(g);
         }
