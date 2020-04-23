@@ -34,9 +34,7 @@ public class OSBotScript extends Script {
         initializeButtons();
         initializeInformationPaint();
         getExperienceTracker().start(Skill.FISHING);
-        storedInformation.getPaintStoredInformation().setOldXpAmount(getSkills().getExperience(Skill.FISHING));
-        storedInformation.getPaintStoredInformation().setStartTime(System.currentTimeMillis());
-        storedInformation.getGeneralStoredInformation().setInitializationsComplete(true);
+        initializeStoredInformationVariables();
     }
 
     @Override
@@ -182,5 +180,11 @@ public class OSBotScript extends Script {
         ArrayUtils.initializeInstance(bot);
         PaintUtils.initializeInstance(bot);
         FishingUtils.initializeInstance(bot);
+    }
+
+    private void initializeStoredInformationVariables() {
+        storedInformation.getPaintStoredInformation().setOldXpAmount(getSkills().getExperience(Skill.FISHING));
+        storedInformation.getPaintStoredInformation().setStartTime(System.currentTimeMillis());
+        storedInformation.getGeneralStoredInformation().setInitializationsComplete(true);
     }
 }
