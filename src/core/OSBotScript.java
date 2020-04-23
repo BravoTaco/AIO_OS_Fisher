@@ -11,8 +11,8 @@ import helpers.*;
 import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
-import paint.PaintButton;
-import paint.PaintInformationBase;
+import paint.components.PaintButton;
+import paint.core.PaintInformationBase;
 import tasks.*;
 
 import java.awt.*;

@@ -1,7 +1,7 @@
-package paint;
+package paint.core;
 
 import data.Int4;
-import paint.core.PaintComponent;
+import paint.interfaces.PaintComponent;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

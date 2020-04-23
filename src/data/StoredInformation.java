@@ -4,8 +4,8 @@ import enums.BotStates;
 import enums.FishTypes;
 import enums.Locations;
 import enums.ToolTypes;
-import paint.PaintButton;
-import paint.PaintInformationBase;
+import paint.components.PaintButton;
+import paint.core.PaintInformationBase;
 import tasks.core.Task;
 
 import java.awt.*;

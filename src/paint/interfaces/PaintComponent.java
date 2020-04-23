@@ -1,6 +1,4 @@
-package paint.core;
-
-import data.Int4;
+package paint.interfaces;
 
 import java.awt.*;
 
