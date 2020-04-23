@@ -67,14 +67,12 @@ public final class BankUtils extends MethodProvider {
                 } else {
                     log("Unable to walk to the closest bank.");
                     getBot().getScriptExecutor().stop(false);
-                    return false;
                 }
             }
         } else if (!getInventory().isFull() && !getBank().contains(itemName)) {
             if (getBank().close()) {
                 log("Bank does not contain required fishing tools.");
                 getBot().getScriptExecutor().stop(false);
-                return false;
             }
         } else if (getBank().isOpen() && getInventory().isFull()) {
             if (getBank().depositAll()) {
@@ -82,13 +80,17 @@ public final class BankUtils extends MethodProvider {
                 retrieveItemFromBank(itemName, amount, closeBank);
             }
         }
-        return getInventory().contains(itemName);
+        if (getInventory().contains(itemName)) {
+            log("Retrieved " + itemName + " from the bank...");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean retrieveAllItemFromBank(String itemName, boolean closeBank) throws InterruptedException {
         if (getBank().isOpen() && !getInventory().isFull() && getBank().contains(itemName) && getBank().withdrawAll(itemName)) {
             if (closeBank) getBank().close();
-            return true;
         } else if (!getBank().isOpen()) {
             if (getBank().open()) {
                 retrieveAllItemFromBank(itemName, closeBank);
@@ -98,14 +100,12 @@ public final class BankUtils extends MethodProvider {
                 } else {
                     log("Unable to walk to the closest bank.");
                     getBot().getScriptExecutor().stop(false);
-                    return false;
                 }
             }
         } else if (!getBank().contains(itemName) || !getBank().withdrawAll(itemName)) {
             if (getBank().close()) {
                 log("Bank does not contain required fishing tools.");
                 getBot().getScriptExecutor().stop(false);
-                return false;
             }
         } else if (getBank().isOpen() && getInventory().isFull()) {
             if (getBank().depositAll()) {
@@ -113,13 +113,17 @@ public final class BankUtils extends MethodProvider {
                 retrieveAllItemFromBank(itemName, closeBank);
             }
         }
-        return getInventory().contains(itemName);
+        if (getInventory().contains(itemName)) {
+            log("Retrieved " + itemName + " from the bank...");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean depositAllItemsExcept(String... itemsToKeep) throws InterruptedException {
         if (bankOrDepositBoxIsOpen() && bankOrDepositBoxDepositAllExcept(itemsToKeep)) {
             closeBankOrDepositBox();
-            return getInventory().isEmptyExcept(itemsToKeep);
         } else if (!bankOrDepositBoxIsOpen()) {
             if (openBankOrDepositBox()) {
                 depositAllItemsExcept(itemsToKeep);
@@ -129,10 +133,14 @@ public final class BankUtils extends MethodProvider {
                 } else {
                     log("Unable to walk to the closest deposit spot.");
                     getBot().getScriptExecutor().stop(false);
-                    return false;
                 }
             }
         }
-        return false;
+        if (getInventory().isEmptyExcept(itemsToKeep)) {
+            log("Deposited items...");
+            return true;
+        } else {
+            return false;
+        }
     }
 }

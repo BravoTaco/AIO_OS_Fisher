@@ -8,6 +8,7 @@ import enums.Locations;
 import enums.ToolTypes;
 import gui.core.MainDialog;
 import helpers.*;
+import org.osbot.rs07.api.ui.Message;
 import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
@@ -60,6 +61,15 @@ public class OSBotScript extends Script {
     }
 
     @Override
+    public void onMessage(Message m) throws InterruptedException {
+        if (storedInformation != null && storedInformation.getGeneralStoredInformation().isInitializationsComplete()) {
+            if (m.getMessage().toLowerCase().contains(storedInformation.getGeneralStoredInformation().getSelectedFishType().name().toLowerCase())) {
+                storedInformation.getPaintStoredInformation().setFishCaught(storedInformation.getPaintStoredInformation().getFishCaught() + 1);
+            }
+        }
+    }
+
+    @Override
     public void onExit() throws InterruptedException {
 
     }
@@ -70,10 +80,6 @@ public class OSBotScript extends Script {
             storedInformation.getPaintStoredInformation().setRunTime(
                     System.currentTimeMillis() - storedInformation.getPaintStoredInformation().getStartTime());
             storedInformation.getPaintStoredInformation().setXpPerHour(getExperienceTracker().getGainedXPPerHour(Skill.FISHING));
-            if (storedInformation.getPaintStoredInformation().getOldXpAmount() < getSkills().getExperience(Skill.FISHING)) {
-                storedInformation.getPaintStoredInformation().setFishCaught(storedInformation.getPaintStoredInformation().getFishCaught() + 1);
-                storedInformation.getPaintStoredInformation().setOldXpAmount(getSkills().getExperience(Skill.FISHING));
-            }
             if (storedInformation.getPaintStoredInformation().isPaintEnabled()) {
                 drawMouse(g);
                 storedInformation.getPaintStoredInformation().getPaintInformationBase().drawComponent(g);
@@ -140,7 +146,7 @@ public class OSBotScript extends Script {
 
     private void initializeInformationPaint() {
         storedInformation.getPaintStoredInformation().setPaintInformationBase(
-                new PaintInformationBase(new Int4(15, 60, 180, 230), storedInformation));
+                new PaintInformationBase(new Int4(15, 30, 180, 260), storedInformation));
     }
 
     private void runInitialChecks() {
