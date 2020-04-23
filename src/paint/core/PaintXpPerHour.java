@@ -11,7 +11,7 @@ public class PaintXpPerHour extends PaintTextBox {
     private StoredInformation storedInformation;
 
     public PaintXpPerHour(StoredInformation storedInformation) {
-        super(new Int4(25, 120, 155, 20), true, true, "", Color.darkGray.darker(), Color.cyan);
+        super(true, true, "", Color.darkGray.darker(), Color.cyan);
         this.storedInformation = storedInformation;
     }
 

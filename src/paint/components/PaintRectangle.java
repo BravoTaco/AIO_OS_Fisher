@@ -8,17 +8,16 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class PaintRectangle implements PaintComponent {
     protected Int4 dimensions;
-    protected Rectangle2D backgroundRectangle;
-    protected Rectangle2D borderBackgroundRectangle;
+    public Rectangle2D backgroundRectangle;
+    public Rectangle2D borderBackgroundRectangle;
     protected boolean useBorder, useFill;
 
-    public PaintRectangle(Int4 dimensions, boolean useBorder, boolean useFill) {
-        this.dimensions = dimensions;
+    public PaintRectangle(boolean useBorder, boolean useFill) {
         this.useBorder = useBorder;
         this.useFill = useFill;
 
-        backgroundRectangle = new Rectangle2D.Float(dimensions.getX(), dimensions.getY(), dimensions.getZ(), dimensions.getW());
-        borderBackgroundRectangle = new Rectangle2D.Float(dimensions.getX() - 3, dimensions.getY() - 3, dimensions.getZ() + 6, dimensions.getW() + 6);
+        backgroundRectangle = new Rectangle2D.Float(0,0,0,0);
+        borderBackgroundRectangle = new Rectangle2D.Float(0,0,0,0);
     }
 
     public abstract void drawComponent(Graphics2D g);

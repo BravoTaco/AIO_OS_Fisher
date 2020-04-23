@@ -11,7 +11,7 @@ public class PaintTotalFishCaught extends PaintTextBox {
     private StoredInformation storedInformation;
 
     public PaintTotalFishCaught(StoredInformation storedInformation) {
-        super(new Int4(25, 150, 155, 20), true, true, "Fish Caught: ", Color.darkGray.darker(), Color.cyan);
+        super(true, true, "Fish Caught: ", Color.darkGray.darker(), Color.cyan);
         this.storedInformation = storedInformation;
     }
 

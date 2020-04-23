@@ -2,8 +2,7 @@ package paint.core;
 
 import data.Int4;
 import data.StoredInformation;
-import org.osbot.rs07.Bot;
-import org.osbot.rs07.script.MethodProvider;
+import paint.components.PaintTextBox;
 import paint.interfaces.PaintComponent;
 
 import java.awt.*;
@@ -46,7 +45,15 @@ public class PaintInformationBase implements PaintComponent {
         g.setColor(backgroundColor);
         g.fill(backgroundRectangle);
 
+        int y = 15;
         for (PaintComponent paintComponent : paintComponents) {
+            if (paintComponent instanceof PaintTextBox) {
+                ((PaintTextBox) paintComponent).backgroundRectangle.setRect(
+                        backgroundRectangle.getX() + 15, backgroundRectangle.getY() + y, backgroundRectangle.getWidth() - 30, 20);
+                ((PaintTextBox) paintComponent).borderBackgroundRectangle.setRect(
+                        backgroundRectangle.getX() + 15 - 3, backgroundRectangle.getY() + y - 3, backgroundRectangle.getWidth() - 30 + 6, 20 + 6);
+                y += 30;
+            }
             paintComponent.drawComponent(g);
         }
     }

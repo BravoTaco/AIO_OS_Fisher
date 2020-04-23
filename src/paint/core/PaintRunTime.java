@@ -11,7 +11,7 @@ public class PaintRunTime extends PaintTextBox {
     private StoredInformation storedInformation;
 
     public PaintRunTime(StoredInformation storedInformation) {
-        super(new Int4(25, 90, 155, 20), true, true, "Runtime: ", Color.darkGray.darker(), Color.cyan);
+        super(true, true, "Runtime: ", Color.darkGray.darker(), Color.cyan);
         this.storedInformation = storedInformation;
     }
 
