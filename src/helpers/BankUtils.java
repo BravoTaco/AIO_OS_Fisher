@@ -15,7 +15,8 @@ public final class BankUtils extends MethodProvider {
 
     private Area[] combinedArrays;
 
-    private BankUtils() { }
+    private BankUtils() {
+    }
 
     public static BankUtils getInstance() {
         return instance;
@@ -55,7 +56,7 @@ public final class BankUtils extends MethodProvider {
     }
 
     public boolean retrieveItemFromBank(String itemName, int amount, boolean closeBank) throws InterruptedException {
-        if (getBank().isOpen() && getBank().contains(itemName) && getBank().withdraw(itemName, amount)) {
+        if (getBank().isOpen() && !getInventory().isFull() && getBank().contains(itemName) && getBank().withdraw(itemName, amount)) {
             if (closeBank) getBank().close();
         } else if (!getBank().isOpen()) {
             if (getBank().open()) {
@@ -69,18 +70,23 @@ public final class BankUtils extends MethodProvider {
                     return false;
                 }
             }
-        } else if (!getBank().contains(itemName) || !getBank().withdraw(itemName, amount)) {
+        } else if (!getInventory().isFull() && !getBank().contains(itemName)) {
             if (getBank().close()) {
                 log("Bank does not contain required fishing tools.");
                 getBot().getScriptExecutor().stop(false);
                 return false;
+            }
+        } else if (getBank().isOpen() && getInventory().isFull()) {
+            if (getBank().depositAll()) {
+                log("Deposited all items...");
+                retrieveItemFromBank(itemName, amount, closeBank);
             }
         }
         return getInventory().contains(itemName);
     }
 
     public boolean retrieveAllItemFromBank(String itemName, boolean closeBank) throws InterruptedException {
-        if (getBank().isOpen() && getBank().contains(itemName) && getBank().withdrawAll(itemName)) {
+        if (getBank().isOpen() && !getInventory().isFull() && getBank().contains(itemName) && getBank().withdrawAll(itemName)) {
             if (closeBank) getBank().close();
             return true;
         } else if (!getBank().isOpen()) {
@@ -100,6 +106,11 @@ public final class BankUtils extends MethodProvider {
                 log("Bank does not contain required fishing tools.");
                 getBot().getScriptExecutor().stop(false);
                 return false;
+            }
+        } else if (getBank().isOpen() && getInventory().isFull()) {
+            if (getBank().depositAll()) {
+                log("Deposited all items...");
+                retrieveAllItemFromBank(itemName, closeBank);
             }
         }
         return getInventory().contains(itemName);

@@ -113,7 +113,7 @@ public class OSBotScript extends Script {
         FishTypes selectedFishType = storedInformation.getGeneralStoredInformation().getSelectedFishType();
         boolean isBankingEnabled = storedInformation.getGeneralStoredInformation().isBankingEnabled();
         log("Initializing tasks...");
-        TaskRetrieveSupplies taskRetrieveSupplies = new TaskRetrieveSupplies(bot, selectedToolType);
+        TaskRetrieveSupplies taskRetrieveSupplies = new TaskRetrieveSupplies(bot, selectedToolType, selectedLocation);
         BotStates.RETRIEVE_SUPPLIES.setTask(taskRetrieveSupplies);
         TaskWalkToFishingLocation taskWalkToFishingLocation = new TaskWalkToFishingLocation(bot, selectedLocation, selectedToolType);
         BotStates.WALK_TO_FISHING_LOCATION.setTask(taskWalkToFishingLocation);
@@ -121,7 +121,7 @@ public class OSBotScript extends Script {
         BotStates.FISH.setTask(taskFishing);
         TaskDrop taskDrop = new TaskDrop(bot, selectedToolType, isBankingEnabled);
         BotStates.DROP.setTask(taskDrop);
-        TaskBank taskBank = new TaskBank(bot, selectedToolType, selectedFishType, isBankingEnabled);
+        TaskBank taskBank = new TaskBank(bot, selectedToolType, selectedLocation, isBankingEnabled);
         BotStates.BANK.setTask(taskBank);
         log("Initialization complete.");
     }

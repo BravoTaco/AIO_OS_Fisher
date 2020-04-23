@@ -1,5 +1,6 @@
 package tasks;
 
+import enums.Locations;
 import enums.ToolTypes;
 import helpers.BankUtils;
 import helpers.FishingUtils;
@@ -9,10 +10,12 @@ import tasks.core.Task;
 public class TaskRetrieveSupplies extends Task {
 
     private ToolTypes selectedToolType;
+    private Locations selectedLocation;
 
-    public TaskRetrieveSupplies(Bot bot, ToolTypes selectedToolType) {
+    public TaskRetrieveSupplies(Bot bot, ToolTypes selectedToolType, Locations selectedLocation) {
         super(bot, "Retrieve Supplies Task");
         this.selectedToolType = selectedToolType;
+        this.selectedLocation = selectedLocation;
     }
 
     @Override
@@ -23,25 +26,21 @@ public class TaskRetrieveSupplies extends Task {
     @Override
     protected boolean onExecute() throws InterruptedException {
 
-        if (needBait() && needTool()) {
-            if (BankUtils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, false)) {
-                log("Retrieved " + selectedToolType.getToolName() + " from the bank...");
-                if (BankUtils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), true)) {
-                    log("Retrieved " + selectedToolType.getBaitName() + " from the bank...");
-                    return true;
-                } else {
-                    log("Unable to retrieve " + selectedToolType.getBaitName() + " from the bank...");
-                }
-            } else {
-                log("Unable to retrieve " + selectedToolType.getToolName() + " from the bank...");
-            }
-        } else if (needTool()) {
-            return BankUtils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, true);
-        } else if (needBait()) {
-            return BankUtils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), true);
+        if (needTool()) {
+            BankUtils.getInstance().retrieveItemFromBank(selectedToolType.getToolName(), 1, false);
         }
 
-        return false;
+        if (needBait()) {
+            BankUtils.getInstance().retrieveAllItemFromBank(selectedToolType.getBaitName(), false);
+        }
+
+        if (needCoins()) {
+            if (!BankUtils.getInstance().retrieveItemFromBank("Coins", 15000, true)) {
+                BankUtils.getInstance().retrieveAllItemFromBank("Coins", true);
+            }
+        }
+
+        return !needTool() && !needBait() && !needCoins();
     }
 
     @Override
@@ -57,5 +56,9 @@ public class TaskRetrieveSupplies extends Task {
     private boolean needBait() {
         return selectedToolType.requiresBait() &&
                 !getInventory().contains(selectedToolType.getBaitName());
+    }
+
+    private boolean needCoins() {
+        return selectedLocation.isCoinsRequired() && !getInventory().contains("Coins");
     }
 }
