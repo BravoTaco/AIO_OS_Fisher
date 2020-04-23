@@ -23,6 +23,8 @@ public class PaintInformationBase implements PaintComponent {
     private int borderOffset = 3;
     private int componentHeights = 20;
 
+    private Font defaultFont = new Font("Sans Serif", Font.BOLD, 12);
+
     public PaintInformationBase(Int4 dimensions, StoredInformation storedInformation) {
         backgroundColor = Color.darkGray;
         backgroundRectangle = new Rectangle2D.Float(dimensions.getX(), dimensions.getY(), dimensions.getZ(), dimensions.getW());
@@ -42,6 +44,7 @@ public class PaintInformationBase implements PaintComponent {
 
     @Override
     public void drawComponent(Graphics2D g) {
+        g.setFont(defaultFont);
         g.setColor(backgroundColor.darker());
         g.fill(borderRectangle);
         g.setColor(backgroundColor);
@@ -58,6 +61,7 @@ public class PaintInformationBase implements PaintComponent {
                         backgroundRectangle.getWidth() - padding * 2 + borderOffset * 2, componentHeights + borderOffset * 2);
                 y += componentHeights + padding;
             }
+            g.setFont(defaultFont);
             paintComponent.drawComponent(g);
         }
     }

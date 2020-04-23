@@ -16,6 +16,7 @@ public class PaintXpPerHour extends PaintTextBox {
 
     @Override
     public void onBeforeDrawText(Graphics2D g) {
+        g.setColor(Color.cyan);
         text = "Xp/Hr: " + FormatUtils.formatValue(storedInformation.getPaintStoredInformation().getXpPerHour());
     }
 }

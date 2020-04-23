@@ -17,7 +17,7 @@ public abstract class PaintButton implements PaintComponent {
     private BotMouseListener mouseListener;
     private Color textColor, backgroundButtonColor;
 
-    private Font textFont = new Font("Sans Serif", Font.PLAIN, 14);
+    private Font textFont = new Font("Sans Serif", Font.BOLD, 14);
 
     public PaintButton(Int4 dimensions, String text, Bot bot) {
         initialize(text, dimensions, bot);
@@ -39,7 +39,8 @@ public abstract class PaintButton implements PaintComponent {
         else
             onNotHover();
 
-        PaintUtils.getInstance().drawCenteredString(g, rectangle2D, text, textColor);
+        g.setColor(textColor);
+        PaintUtils.getInstance().drawCenteredString(g, rectangle2D, text);
     }
 
     public void setText(String text) {

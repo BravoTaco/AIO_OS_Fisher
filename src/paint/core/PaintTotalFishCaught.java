@@ -17,7 +17,7 @@ public class PaintTotalFishCaught extends PaintTextBox {
 
     @Override
     public void onBeforeDrawText(Graphics2D g) {
-        g.setFont(new Font("Sans Serif", Font.PLAIN, 12));
+        g.setColor(Color.cyan);
         String fishName = StringUtil.convertCapitalStringToNormal(storedInformation.getGeneralStoredInformation().getSelectedFishType().name());
         String amount = FormatUtils.formatValue(storedInformation.getPaintStoredInformation().getFishCaught());
         text = String.format("%s Caught: %s", fishName, amount);

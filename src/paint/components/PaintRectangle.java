@@ -1,13 +1,11 @@
 package paint.components;
 
-import data.Int4;
 import paint.interfaces.PaintComponent;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public abstract class PaintRectangle implements PaintComponent {
-    protected Int4 dimensions;
     public Rectangle2D backgroundRectangle;
     public Rectangle2D borderBackgroundRectangle;
     protected boolean useBorder, useFill;

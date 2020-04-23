@@ -29,8 +29,7 @@ public final class PaintUtils extends MethodProvider {
         return new Point(x, y);
     }
 
-    public void drawCenteredString(Graphics2D g, Rectangle2D rectangle2D, String text, Color textColor) {
-        g.setColor(textColor);
+    public void drawCenteredString(Graphics2D g, Rectangle2D rectangle2D, String text) {
         FontMetrics metrics = g.getFontMetrics();
         int x = (int) (rectangle2D.getX() + (rectangle2D.getWidth() - metrics.stringWidth(text)) / 2);
         int y = (int) (rectangle2D.getY() + (rectangle2D.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
