@@ -32,6 +32,9 @@ public class OSBotScript extends Script {
         initializeTasks();
         initializeButtons();
         initializeInformationPaint();
+        getExperienceTracker().start(Skill.FISHING);
+        storedInformation.getPaintStoredInformation().setOldXpAmount(getSkills().getExperience(Skill.FISHING));
+        storedInformation.getPaintStoredInformation().setStartTime(System.currentTimeMillis());
         storedInformation.getGeneralStoredInformation().setInitializationsComplete(true);
     }
 
@@ -64,6 +67,13 @@ public class OSBotScript extends Script {
     @Override
     public void onPaint(Graphics2D g) {
         if (storedInformation.getGeneralStoredInformation().isInitializationsComplete()) {
+            storedInformation.getPaintStoredInformation().setRunTime(
+                    System.currentTimeMillis() - storedInformation.getPaintStoredInformation().getStartTime());
+            storedInformation.getPaintStoredInformation().setXpPerHour(getExperienceTracker().getGainedXPPerHour(Skill.FISHING));
+            if (storedInformation.getPaintStoredInformation().getOldXpAmount() < getSkills().getExperience(Skill.FISHING)) {
+                storedInformation.getPaintStoredInformation().setFishCaught(storedInformation.getPaintStoredInformation().getFishCaught() + 1);
+                storedInformation.getPaintStoredInformation().setOldXpAmount(getSkills().getExperience(Skill.FISHING));
+            }
             if (storedInformation.getPaintStoredInformation().isPaintEnabled()) {
                 drawMouse(g);
                 storedInformation.getPaintStoredInformation().getPaintInformationBase().drawComponent(g);
@@ -129,7 +139,8 @@ public class OSBotScript extends Script {
     }
 
     private void initializeInformationPaint() {
-        storedInformation.getPaintStoredInformation().setPaintInformationBase(new PaintInformationBase(new Int4(15, 60, 180, 230)));
+        storedInformation.getPaintStoredInformation().setPaintInformationBase(
+                new PaintInformationBase(new Int4(15, 60, 180, 230), storedInformation));
     }
 
     private void runInitialChecks() {

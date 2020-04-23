@@ -98,13 +98,10 @@ public class StoredInformation {
         private PaintButton paintStateButton;
         private PaintInformationBase paintInformationBase;
         private boolean isPaintEnabled = true;
+        private long xpPerHour, fishCaught, runTime, startTime, oldXpAmount;
 
         public Point[] getPoints() {
             return points;
-        }
-
-        public void setPoints(Point[] points) {
-            this.points = points;
         }
 
         public int getCurrentPointToSet() {
@@ -137,6 +134,46 @@ public class StoredInformation {
 
         public void setPaintEnabled(boolean paintEnabled) {
             isPaintEnabled = paintEnabled;
+        }
+
+        public long getXpPerHour() {
+            return xpPerHour;
+        }
+
+        public void setXpPerHour(long xpPerHour) {
+            this.xpPerHour = xpPerHour;
+        }
+
+        public long getFishCaught() {
+            return fishCaught;
+        }
+
+        public void setFishCaught(long fishCaught) {
+            this.fishCaught = fishCaught;
+        }
+
+        public long getOldXpAmount() {
+            return oldXpAmount;
+        }
+
+        public void setOldXpAmount(long oldXpAmount) {
+            this.oldXpAmount = oldXpAmount;
+        }
+
+        public long getRunTime() {
+            return runTime;
+        }
+
+        public void setRunTime(long runTime) {
+            this.runTime = runTime;
+        }
+
+        public long getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(long startTime) {
+            this.startTime = startTime;
         }
     }
 }

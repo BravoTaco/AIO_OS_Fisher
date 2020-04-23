@@ -5,9 +5,9 @@ import helpers.PaintUtils;
 
 import java.awt.*;
 
-public class PaintTextBox extends PaintRectangle {
-    private String text;
-    private Color backgroundColor, textColor;
+public abstract class PaintTextBox extends PaintRectangle {
+    protected String text;
+    protected Color backgroundColor, textColor;
 
     public PaintTextBox(Int4 dimensions, boolean useBorder, boolean useFill, String text, Color backgroundColor, Color textColor) {
         super(dimensions, useBorder, useFill);
@@ -18,6 +18,7 @@ public class PaintTextBox extends PaintRectangle {
 
     @Override
     public void drawComponent(Graphics2D g) {
+        onDraw();
         if (useFill && useBorder) {
             g.setColor(backgroundColor.darker());
             g.fill(borderBackgroundRectangle);
@@ -40,6 +41,8 @@ public class PaintTextBox extends PaintRectangle {
             drawText(g);
         }
     }
+
+    public abstract void onDraw();
 
     private void drawText(Graphics2D g) {
         g.setColor(textColor);
