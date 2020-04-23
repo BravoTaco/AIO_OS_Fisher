@@ -18,7 +18,7 @@ import tasks.*;
 
 import java.awt.*;
 
-@ScriptManifest(info = "AIO OS Fisher.", version = 0.1, logo = "https://i.imgur.com/4aiCsAb.png",
+@ScriptManifest(info = "AIO OS Fisher.", version = 0.1, logo = "https://i.imgur.com/sSDEc20.jpg",
         author = "BravoTaco", name = "AIO OS Fisher")
 public class OSBotScript extends Script {
 
