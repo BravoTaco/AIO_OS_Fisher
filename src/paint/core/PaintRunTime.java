@@ -1,6 +1,5 @@
 package paint.core;
 
-import data.Int4;
 import data.StoredInformation;
 import helpers.FormatUtils;
 import paint.components.PaintTextBox;
@@ -16,7 +15,7 @@ public class PaintRunTime extends PaintTextBox {
     }
 
     @Override
-    public void onDraw() {
+    public void onTextUpdate() {
         text = "Runtime: " + FormatUtils.formatTime(storedInformation.getPaintStoredInformation().getRunTime());
     }
 }

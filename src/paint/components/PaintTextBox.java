@@ -17,7 +17,7 @@ public abstract class PaintTextBox extends PaintRectangle {
 
     @Override
     public void drawComponent(Graphics2D g) {
-        onDraw();
+        onTextUpdate();
         if (useFill && useBorder) {
             g.setColor(backgroundColor.darker());
             g.fill(borderBackgroundRectangle);
@@ -41,7 +41,7 @@ public abstract class PaintTextBox extends PaintRectangle {
         }
     }
 
-    public abstract void onDraw();
+    public abstract void onTextUpdate();
 
     private void drawText(Graphics2D g) {
         g.setColor(textColor);
