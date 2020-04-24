@@ -1,6 +1,7 @@
 package enums;
 
 
+import helpers.StringUtil;
 import org.osbot.rs07.api.map.Position;
 
 public enum Locations {
@@ -24,5 +25,10 @@ public enum Locations {
 
     public boolean isCoinsRequired() {
         return isCoinsRequired;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtil.convertCapitalStringToNormal(this.name(), true);
     }
 }

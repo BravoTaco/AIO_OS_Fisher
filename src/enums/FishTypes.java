@@ -1,5 +1,7 @@
 package enums;
 
+import helpers.StringUtil;
+
 public enum FishTypes {
     SHRIMP(
             false,
@@ -73,6 +75,7 @@ public enum FishTypes {
         this.supportedLocations = supportedLocations;
     }
 
+
     public boolean isMembers() {
         return isMembers;
     }
@@ -87,5 +90,10 @@ public enum FishTypes {
 
     public Locations[] getSupportedLocations() {
         return supportedLocations;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtil.convertCapitalStringToNormal(this.name(), false);
     }
 }

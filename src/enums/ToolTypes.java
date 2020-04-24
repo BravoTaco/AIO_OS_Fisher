@@ -1,5 +1,7 @@
 package enums;
 
+import helpers.StringUtil;
+
 public enum ToolTypes {
     SMALL_FISHING_NET(false, false, "Small fishing net", "", "Net"),
     FISHING_ROD(false, true, "Fishing rod", "Fishing bait", "Bait"),
@@ -37,5 +39,10 @@ public enum ToolTypes {
 
     public String getAction() {
         return action;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtil.convertCapitalStringToNormal(this.name(), true);
     }
 }
