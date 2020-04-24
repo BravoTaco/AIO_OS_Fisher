@@ -32,4 +32,14 @@ public final class SleepUtils extends MethodProvider {
         }.sleep();
         return condition.getAsBoolean();
     }
+
+    public boolean sleep(int minTime, int maxTime) {
+        new ConditionalSleep(random(minTime, maxTime), 500) {
+            @Override
+            public boolean condition() throws InterruptedException {
+                return false;
+            }
+        };
+        return true;
+    }
 }

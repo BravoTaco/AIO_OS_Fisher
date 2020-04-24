@@ -38,6 +38,7 @@ public class TaskFishing extends Task {
             }
             getMouse().moveOutsideScreen();
             SleepUtils.getInstance().sleepUntil(() -> !myPlayer().isAnimating(), random(10000, 80000), 100);
+            if (!myPlayer().isAnimating()) SleepUtils.getInstance().sleep(3000, 12000);
             return true;
         } else if (!myPlayer().isAnimating()) {
             NPC fishingSpot = FishingUtils.getInstance().getFishingSpot(selectedToolType);

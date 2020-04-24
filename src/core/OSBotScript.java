@@ -61,8 +61,10 @@ public class OSBotScript extends Script {
     @Override
     public void onMessage(Message m) throws InterruptedException {
         if (storedInformation != null && storedInformation.getGeneralStoredInformation().isInitializationsComplete()) {
-            if (m.getMessage().toLowerCase().contains(storedInformation.getGeneralStoredInformation().getSelectedFishType().name().toLowerCase())) {
-                storedInformation.getPaintStoredInformation().setFishCaught(storedInformation.getPaintStoredInformation().getFishCaught() + 1);
+            String caughtMessage = "you catch a " + storedInformation.getGeneralStoredInformation().getSelectedFishType().name().toLowerCase();
+            if (m.getMessage().toLowerCase().contains(caughtMessage)) {
+                long oldCaughtAmount = storedInformation.getPaintStoredInformation().getFishCaught();
+                storedInformation.getPaintStoredInformation().setFishCaught(oldCaughtAmount + 1);
             }
         }
     }
