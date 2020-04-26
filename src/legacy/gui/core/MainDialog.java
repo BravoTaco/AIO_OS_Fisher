@@ -1,12 +1,12 @@
-package legacy_gui.core;
+package legacy.gui.core;
 
 import data.StoredInformation;
-import legacy_gui.components.FishSelector;
-import legacy_gui.components.FishingModeSelector;
-import legacy_gui.components.LocationSelector;
-import legacy_gui.components.ToolSelector;
-import legacy_gui.enums.BorderLayoutPositions;
-import legacy_gui.utils.SwingUtils;
+import legacy.gui.components.FishSelector;
+import legacy.gui.components.FishingModeSelector;
+import legacy.gui.components.LocationSelector;
+import legacy.gui.components.ToolSelector;
+import legacy.gui.enums.BorderLayoutPositions;
+import legacy.gui.utils.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,9 @@
-package legacy_paint.core;
+package legacy.paint.core;
 
 import data.StoredInformation;
 import helpers.FormatUtils;
 import helpers.StringUtil;
-import legacy_paint.components.PaintTextBox;
+import legacy.paint.components.PaintTextBox;
 
 import java.awt.*;
 

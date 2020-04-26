@@ -1,10 +1,10 @@
-package legacy_gui.components;
+package legacy.gui.components;
 
 import data.StoredInformation;
 import enums.FishTypes;
 import enums.ToolTypes;
-import legacy_gui.enums.BorderLayoutPositions;
-import legacy_gui.utils.SwingUtils;
+import legacy.gui.enums.BorderLayoutPositions;
+import legacy.gui.utils.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;

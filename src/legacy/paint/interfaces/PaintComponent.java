@@ -1,4 +1,4 @@
-package legacy_paint.interfaces;
+package legacy.paint.interfaces;
 
 import java.awt.*;
 

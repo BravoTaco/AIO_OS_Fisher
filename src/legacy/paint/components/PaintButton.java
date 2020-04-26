@@ -1,10 +1,10 @@
-package legacy_paint.components;
+package legacy.paint.components;
 
 import data.Int4;
 import helpers.PaintUtils;
+import legacy.paint.interfaces.PaintComponent;
 import org.osbot.rs07.Bot;
 import org.osbot.rs07.input.mouse.BotMouseListener;
-import legacy_paint.interfaces.PaintComponent;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

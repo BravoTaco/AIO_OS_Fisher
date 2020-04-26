@@ -1,4 +1,4 @@
-package legacy_paint.components;
+package legacy.paint.components;
 
 import helpers.PaintUtils;
 
