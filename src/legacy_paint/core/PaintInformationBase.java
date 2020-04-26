@@ -1,9 +1,9 @@
-package paint.core;
+package legacy_paint.core;
 
 import data.Int4;
 import data.StoredInformation;
-import paint.components.PaintTextBox;
-import paint.interfaces.PaintComponent;
+import legacy_paint.components.PaintTextBox;
+import legacy_paint.interfaces.PaintComponent;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

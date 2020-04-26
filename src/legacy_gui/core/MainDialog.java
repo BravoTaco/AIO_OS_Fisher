@@ -1,12 +1,12 @@
-package gui.core;
+package legacy_gui.core;
 
 import data.StoredInformation;
-import gui.components.FishSelector;
-import gui.components.FishingModeSelector;
-import gui.components.LocationSelector;
-import gui.components.ToolSelector;
-import gui.enums.BorderLayoutPositions;
-import gui.utils.SwingUtils;
+import legacy_gui.components.FishSelector;
+import legacy_gui.components.FishingModeSelector;
+import legacy_gui.components.LocationSelector;
+import legacy_gui.components.ToolSelector;
+import legacy_gui.enums.BorderLayoutPositions;
+import legacy_gui.utils.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,21 +16,19 @@ import java.awt.event.MouseEvent;
 public class MainDialog {
     private static MainDialog instance;
 
-    private JDialog dialog;
-    private JPanel mainPanel;
-    private JPanel topPanel;
-    private JPanel bottomPanel;
-    private JPanel centerPanel;
-    private JPanel buttonsPanel;
-    private JButton confirmButton;
-    private JButton cancelButton;
+    private final JDialog dialog;
+    private final JPanel mainPanel;
+    private final JPanel topPanel;
+    private final JPanel bottomPanel;
+    private final JPanel centerPanel;
+    private final JPanel buttonsPanel;
+    private final JButton confirmButton;
+    private final JButton cancelButton;
 
-    private FishSelector fishSelector;
-    private FishingModeSelector fishingModeSelector;
-    private ToolSelector toolSelector;
-    private LocationSelector locationSelector;
-
-    private StoredInformation storedInformation;
+    private final FishSelector fishSelector;
+    private final FishingModeSelector fishingModeSelector;
+    private final ToolSelector toolSelector;
+    private final LocationSelector locationSelector;
 
     private boolean wasConfirmClicked;
 
@@ -71,22 +69,32 @@ public class MainDialog {
 
         buttonsPanel = new JPanel(new FlowLayout());
         SwingUtils.initializeComponent(buttonsPanel,
-                BorderFactory.createLineBorder(Color.darkGray.brighter()),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 bottomPanel, BorderLayoutPositions.EAST);
+
+        JPanel confirmButtonPanel = new JPanel();
+        SwingUtils.initializeComponent(confirmButtonPanel,
+                BorderFactory.createEtchedBorder(),
+                buttonsPanel, BorderLayoutPositions.NONE);
 
         confirmButton = new JButton("Confirm");
         confirmButton.setFont(new Font("", Font.BOLD, 22));
         SwingUtils.initializeComponent(confirmButton,
-                BorderFactory.createEmptyBorder(5, 5, 5, 5),
-                buttonsPanel, BorderLayoutPositions.NONE);
+                BorderFactory.createEmptyBorder(3, 3, 3, 3),
+                confirmButtonPanel, BorderLayoutPositions.NONE);
         addDefaultMouseListener(confirmButton);
         confirmButton.addActionListener(e -> onConfirm());
+
+        JPanel cancelButtonPanel = new JPanel();
+        SwingUtils.initializeComponent(cancelButtonPanel,
+                BorderFactory.createEtchedBorder(),
+                buttonsPanel, BorderLayoutPositions.NONE);
 
         cancelButton = new JButton("Cancel");
         cancelButton.setFont(new Font("", Font.BOLD, 22));
         SwingUtils.initializeComponent(cancelButton,
-                BorderFactory.createEmptyBorder(5, 5, 5, 5),
-                buttonsPanel, BorderLayoutPositions.NONE);
+                BorderFactory.createEmptyBorder(3, 3, 3, 3),
+                cancelButtonPanel, BorderLayoutPositions.NONE);
         addDefaultMouseListener(cancelButton);
         cancelButton.addActionListener(e -> onCancel());
 
@@ -108,10 +116,6 @@ public class MainDialog {
                 button.setForeground(Color.cyan);
             }
         });
-    }
-
-    public void setStoredInformation(StoredInformation storedInformation) {
-        this.storedInformation = storedInformation;
     }
 
     public void addComponentToMainPanel(Component component, String borderLayoutPosition) {

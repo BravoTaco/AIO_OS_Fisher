@@ -1,9 +1,9 @@
-package gui.components;
+package legacy_gui.components;
 
 import data.StoredInformation;
 import enums.FishTypes;
-import gui.enums.BorderLayoutPositions;
-import gui.utils.SwingUtils;
+import legacy_gui.enums.BorderLayoutPositions;
+import legacy_gui.utils.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;

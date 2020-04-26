@@ -6,14 +6,14 @@ import enums.BotStates;
 import enums.FishTypes;
 import enums.Locations;
 import enums.ToolTypes;
-import gui.core.MainDialog;
+import legacy_gui.core.MainDialog;
 import helpers.*;
 import org.osbot.rs07.api.ui.Message;
 import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
-import paint.components.PaintButton;
-import paint.core.PaintInformationBase;
+import legacy_paint.components.PaintButton;
+import legacy_paint.core.PaintInformationBase;
 import tasks.*;
 
 import java.awt.*;

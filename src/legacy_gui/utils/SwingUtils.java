@@ -1,6 +1,6 @@
-package gui.utils;
+package legacy_gui.utils;
 
-import gui.enums.BorderLayoutPositions;
+import legacy_gui.enums.BorderLayoutPositions;
 
 import javax.swing.*;
 import javax.swing.border.Border;

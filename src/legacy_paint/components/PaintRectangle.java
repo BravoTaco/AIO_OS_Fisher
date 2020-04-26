@@ -1,6 +1,6 @@
-package paint.components;
+package legacy_paint.components;
 
-import paint.interfaces.PaintComponent;
+import legacy_paint.interfaces.PaintComponent;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
