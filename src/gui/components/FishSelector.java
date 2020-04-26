@@ -30,7 +30,7 @@ public class FishSelector {
         fishTypesJComboBox = new JComboBox<>(FishTypes.values());
         SwingUtils.initializeComponent(fishTypesJComboBox, BorderFactory.createEmptyBorder(5, 5, 5, 5),
                 mainPanel, BorderLayoutPositions.NONE);
-        if (storedInformation != null)
+        if (storedInformation != null && storedInformation.getGeneralStoredInformation().getSelectedFishType() != null)
             fishTypesJComboBox.setSelectedItem(storedInformation.getGeneralStoredInformation().getSelectedFishType());
 
         mainPanel.setMaximumSize(mainPanel.getMinimumSize());

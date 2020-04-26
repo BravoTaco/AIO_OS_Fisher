@@ -39,7 +39,7 @@ public class ToolSelector {
             toolTypesJComboBox.setSelectedIndex(0);
         });
 
-        if (storedInformation != null) {
+        if (storedInformation != null && storedInformation.getGeneralStoredInformation().getSelectedToolType() != null) {
             toolTypesJComboBox.setSelectedItem(storedInformation.getGeneralStoredInformation().getSelectedToolType());
         }
 

@@ -38,7 +38,7 @@ public class LocationSelector {
             }
         });
 
-        if (storedInformation != null) {
+        if (storedInformation != null && storedInformation.getGeneralStoredInformation().getSelectedLocation() != null) {
             locationsJComboBox.setSelectedItem(storedInformation.getGeneralStoredInformation().getSelectedLocation());
         }
     }
