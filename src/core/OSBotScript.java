@@ -26,9 +26,13 @@ public class OSBotScript extends Script {
 
     @Override
     public void onStart() throws InterruptedException {
-        storedInformation = new StoredInformation();
         initializeUtils();
-        MainDialog.getInstance().show();
+        storedInformation = SaveLoadUtil.getInstance().loadFile();
+        if (storedInformation == null) {
+            storedInformation = new StoredInformation();
+            SaveLoadUtil.getInstance().save(storedInformation);
+        }
+        MainDialog.getInstance(storedInformation).show();
         runInitialChecks();
         initializeTasks();
         initializeButtons();
@@ -71,7 +75,7 @@ public class OSBotScript extends Script {
 
     @Override
     public void onExit() throws InterruptedException {
-
+        SaveLoadUtil.getInstance().save(storedInformation);
     }
 
     @Override
@@ -150,14 +154,14 @@ public class OSBotScript extends Script {
     }
 
     private void runInitialChecks() {
-        if (!MainDialog.getInstance().wasConfirmClicked()) {
+        if (!MainDialog.getInstance(null).wasConfirmClicked()) {
             stop(false);
             return;
         } else {
-            FishTypes selectedFishType = (FishTypes) MainDialog.getInstance().getFishSelector().getFishTypesJComboBox().getSelectedItem();
-            Locations selectedLocation = (Locations) MainDialog.getInstance().getLocationSelector().getLocationsJComboBox().getSelectedItem();
-            ToolTypes selectedToolType = (ToolTypes) MainDialog.getInstance().getToolSelector().getToolTypesJComboBox().getSelectedItem();
-            boolean isBankingEnabled = MainDialog.getInstance().getFishingModeSelector().getBankingCB().isSelected();
+            FishTypes selectedFishType = (FishTypes) MainDialog.getInstance(null).getFishSelector().getFishTypesJComboBox().getSelectedItem();
+            Locations selectedLocation = (Locations) MainDialog.getInstance(null).getLocationSelector().getLocationsJComboBox().getSelectedItem();
+            ToolTypes selectedToolType = (ToolTypes) MainDialog.getInstance(null).getToolSelector().getToolTypesJComboBox().getSelectedItem();
+            boolean isBankingEnabled = MainDialog.getInstance(null).getFishingModeSelector().getBankingCB().isSelected();
             storedInformation.getGeneralStoredInformation().setSelectedFishType(selectedFishType);
             storedInformation.getGeneralStoredInformation().setSelectedLocation(selectedLocation);
             storedInformation.getGeneralStoredInformation().setSelectedToolType(selectedToolType);
@@ -182,10 +186,11 @@ public class OSBotScript extends Script {
         ArrayUtils.initializeInstance(bot);
         PaintUtils.initializeInstance(bot);
         FishingUtils.initializeInstance(bot);
+        WidgetsUtil.initializeInstance(bot);
+        SaveLoadUtil.initializeInstance(bot);
     }
 
     private void initializeStoredInformationVariables() {
-        storedInformation.getPaintStoredInformation().setOldXpAmount(getSkills().getExperience(Skill.FISHING));
         storedInformation.getPaintStoredInformation().setStartTime(System.currentTimeMillis());
         storedInformation.getGeneralStoredInformation().setInitializationsComplete(true);
     }

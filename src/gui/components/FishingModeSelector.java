@@ -1,5 +1,6 @@
 package gui.components;
 
+import data.StoredInformation;
 import gui.enums.BorderLayoutPositions;
 import gui.utils.SwingUtils;
 
@@ -13,7 +14,7 @@ public class FishingModeSelector {
     private JCheckBox bankingCB;
     private JCheckBox droppingCB;
 
-    public FishingModeSelector(JComponent componentToAddTo) {
+    public FishingModeSelector(JComponent componentToAddTo, StoredInformation storedInformation) {
         JPanel spacer = new JPanel();
         SwingUtils.initializeComponent(spacer, BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 componentToAddTo, BorderLayoutPositions.NONE);
@@ -44,6 +45,16 @@ public class FishingModeSelector {
                 bankingCB.setSelected(!droppingCB.isSelected());
             }
         });
+
+        if (storedInformation != null) {
+            if (storedInformation.getGeneralStoredInformation().isBankingEnabled()) {
+                bankingCB.setSelected(true);
+                droppingCB.setSelected(false);
+            } else {
+                droppingCB.setSelected(true);
+                bankingCB.setSelected(false);
+            }
+        }
 
         mainPanel.setMaximumSize(mainPanel.getMinimumSize());
     }

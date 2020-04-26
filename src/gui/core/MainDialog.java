@@ -1,6 +1,6 @@
 package gui.core;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
+import data.StoredInformation;
 import gui.components.FishSelector;
 import gui.components.FishingModeSelector;
 import gui.components.LocationSelector;
@@ -30,15 +30,17 @@ public class MainDialog {
     private ToolSelector toolSelector;
     private LocationSelector locationSelector;
 
+    private StoredInformation storedInformation;
+
     private boolean wasConfirmClicked;
 
-    public static MainDialog getInstance() {
+    public static MainDialog getInstance(StoredInformation storedInformation) {
         if (instance == null)
-            instance = new MainDialog("AIO OS Fisher");
+            instance = new MainDialog("AIO OS Fisher", storedInformation);
         return instance;
     }
 
-    private MainDialog(String title) {
+    private MainDialog(String title, StoredInformation storedInformation) {
         dialog = new JDialog();
         SwingUtils.setDefaultColors(dialog);
         dialog.setTitle(title);
@@ -88,11 +90,10 @@ public class MainDialog {
         addDefaultMouseListener(cancelButton);
         cancelButton.addActionListener(e -> onCancel());
 
-        fishSelector = new FishSelector(centerPanel);
-        fishingModeSelector = new FishingModeSelector(centerPanel);
-        toolSelector = new ToolSelector(centerPanel, fishSelector);
-        locationSelector = new LocationSelector(centerPanel, fishSelector);
-
+        fishSelector = new FishSelector(centerPanel, storedInformation);
+        fishingModeSelector = new FishingModeSelector(centerPanel, storedInformation);
+        toolSelector = new ToolSelector(centerPanel, fishSelector, storedInformation);
+        locationSelector = new LocationSelector(centerPanel, fishSelector, storedInformation);
     }
 
     private void addDefaultMouseListener(JButton button) {
@@ -107,6 +108,10 @@ public class MainDialog {
                 button.setForeground(Color.cyan);
             }
         });
+    }
+
+    public void setStoredInformation(StoredInformation storedInformation) {
+        this.storedInformation = storedInformation;
     }
 
     public void addComponentToMainPanel(Component component, String borderLayoutPosition) {

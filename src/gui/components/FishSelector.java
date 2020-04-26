@@ -1,5 +1,6 @@
 package gui.components;
 
+import data.StoredInformation;
 import enums.FishTypes;
 import gui.enums.BorderLayoutPositions;
 import gui.utils.SwingUtils;
@@ -12,7 +13,7 @@ public class FishSelector {
     private JLabel label;
     private JComboBox<FishTypes> fishTypesJComboBox;
 
-    public FishSelector(JComponent componentToAddTo) {
+    public FishSelector(JComponent componentToAddTo, StoredInformation storedInformation) {
         JPanel spacer = new JPanel();
         SwingUtils.initializeComponent(spacer, BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 componentToAddTo, BorderLayoutPositions.NONE);
@@ -29,6 +30,8 @@ public class FishSelector {
         fishTypesJComboBox = new JComboBox<>(FishTypes.values());
         SwingUtils.initializeComponent(fishTypesJComboBox, BorderFactory.createEmptyBorder(5, 5, 5, 5),
                 mainPanel, BorderLayoutPositions.NONE);
+        if (storedInformation != null)
+            fishTypesJComboBox.setSelectedItem(storedInformation.getGeneralStoredInformation().getSelectedFishType());
 
         mainPanel.setMaximumSize(mainPanel.getMinimumSize());
     }

@@ -1,5 +1,6 @@
 package gui.components;
 
+import data.StoredInformation;
 import enums.FishTypes;
 import enums.Locations;
 import gui.enums.BorderLayoutPositions;
@@ -7,13 +8,14 @@ import gui.utils.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class LocationSelector {
     private JPanel mainPanel;
     private JComboBox<Locations> locationsJComboBox;
     private JLabel label;
 
-    public LocationSelector(JComponent componentToAddTo, FishSelector fishSelector) {
+    public LocationSelector(JComponent componentToAddTo, FishSelector fishSelector, StoredInformation storedInformation) {
         JPanel spacer = new JPanel();
         SwingUtils.initializeComponent(spacer, BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 componentToAddTo, BorderLayoutPositions.NONE);
@@ -26,7 +28,7 @@ public class LocationSelector {
         SwingUtils.initializeComponent(label, BorderFactory.createEmptyBorder(5, 5, 5, 5),
                 mainPanel, BorderLayoutPositions.NONE);
 
-        locationsJComboBox = new JComboBox<>(((FishTypes) fishSelector.getFishTypesJComboBox().getSelectedItem()).getSupportedLocations());
+        locationsJComboBox = new JComboBox<>(((FishTypes) Objects.requireNonNull(fishSelector.getFishTypesJComboBox().getSelectedItem())).getSupportedLocations());
         SwingUtils.initializeComponent(locationsJComboBox, BorderFactory.createEmptyBorder(5, 5, 5, 5),
                 mainPanel, BorderLayoutPositions.NONE);
         fishSelector.getFishTypesJComboBox().addActionListener(e -> {
@@ -35,6 +37,10 @@ public class LocationSelector {
                 locationsJComboBox.addItem(location);
             }
         });
+
+        if (storedInformation != null) {
+            locationsJComboBox.setSelectedItem(storedInformation.getGeneralStoredInformation().getSelectedLocation());
+        }
     }
 
     public JComboBox<Locations> getLocationsJComboBox() {

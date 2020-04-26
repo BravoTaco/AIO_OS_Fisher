@@ -1,6 +1,9 @@
 package data;
 
-public class Int4 {
+import java.io.Serializable;
+
+public class Int4 implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int x, y, z, w;
 
     public Int4(int x, int y, int z, int w) {

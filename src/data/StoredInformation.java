@@ -9,10 +9,12 @@ import paint.core.PaintInformationBase;
 import tasks.core.Task;
 
 import java.awt.*;
+import java.io.*;
 
-public class StoredInformation {
-    private GeneralStoredInformation generalStoredInformation;
-    private PaintStoredInformation paintStoredInformation;
+public class StoredInformation implements Serializable {
+    private final static long serialVersionUID = 1L;
+    private final GeneralStoredInformation generalStoredInformation;
+    private transient PaintStoredInformation paintStoredInformation;
 
     public StoredInformation() {
         generalStoredInformation = new GeneralStoredInformation();
@@ -24,12 +26,15 @@ public class StoredInformation {
     }
 
     public PaintStoredInformation getPaintStoredInformation() {
+        if (paintStoredInformation == null)
+            paintStoredInformation = new PaintStoredInformation();
         return paintStoredInformation;
     }
 
-    public class GeneralStoredInformation {
-        private BotStates currentBotState;
-        private Task currentTask;
+    public static class GeneralStoredInformation implements Serializable {
+        private final static long serialVersionUID = 1L;
+        private transient BotStates currentBotState;
+        private transient Task currentTask;
         private FishTypes selectedFishType;
         private Locations selectedLocation;
         private ToolTypes selectedToolType;
@@ -92,16 +97,28 @@ public class StoredInformation {
         }
     }
 
-    public class PaintStoredInformation {
+    public static class PaintStoredInformation {
         private Point[] points = new Point[50];
         private int currentPointToSet;
-        private PaintButton paintStateButton;
-        private PaintInformationBase paintInformationBase;
+        private transient PaintButton paintStateButton;
+        private transient PaintInformationBase paintInformationBase;
         private boolean isPaintEnabled = true;
-        private long xpPerHour, fishCaught, runTime, startTime, oldXpAmount;
+        private long xpPerHour, fishCaught, runTime, startTime;
 
         public Point[] getPoints() {
             return points;
+        }
+
+        public void increaseMouseTrail(int increaseAmount) {
+            int newAmount = this.points.length + increaseAmount;
+            this.points = new Point[newAmount];
+        }
+
+        public void decreaseMouseTrail(int decreaseAmount) {
+            int newAmount = this.points.length - decreaseAmount;
+            if (newAmount <= 0)
+                newAmount = 1;
+            this.points = new Point[newAmount];
         }
 
         public int getCurrentPointToSet() {
@@ -150,14 +167,6 @@ public class StoredInformation {
 
         public void setFishCaught(long fishCaught) {
             this.fishCaught = fishCaught;
-        }
-
-        public long getOldXpAmount() {
-            return oldXpAmount;
-        }
-
-        public void setOldXpAmount(long oldXpAmount) {
-            this.oldXpAmount = oldXpAmount;
         }
 
         public long getRunTime() {

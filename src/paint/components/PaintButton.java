@@ -14,7 +14,7 @@ public abstract class PaintButton implements PaintComponent {
     private Int4 dimensions;
     private String text;
     private Rectangle2D rectangle2D;
-    private BotMouseListener mouseListener;
+    private transient BotMouseListener mouseListener;
     private Color textColor, backgroundButtonColor;
 
     private Font textFont = new Font("Sans Serif", Font.BOLD, 14);

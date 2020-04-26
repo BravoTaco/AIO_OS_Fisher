@@ -1,5 +1,6 @@
 package gui.components;
 
+import data.StoredInformation;
 import enums.FishTypes;
 import enums.ToolTypes;
 import gui.enums.BorderLayoutPositions;
@@ -13,7 +14,7 @@ public class ToolSelector {
     private JComboBox<ToolTypes> toolTypesJComboBox;
     private JLabel label;
 
-    public ToolSelector(JComponent componentToAddTo, FishSelector fishSelector) {
+    public ToolSelector(JComponent componentToAddTo, FishSelector fishSelector, StoredInformation storedInformation) {
         JPanel spacer = new JPanel();
         SwingUtils.initializeComponent(spacer, BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 componentToAddTo, BorderLayoutPositions.NONE);
@@ -37,6 +38,10 @@ public class ToolSelector {
             }
             toolTypesJComboBox.setSelectedIndex(0);
         });
+
+        if (storedInformation != null) {
+            toolTypesJComboBox.setSelectedItem(storedInformation.getGeneralStoredInformation().getSelectedToolType());
+        }
 
         mainPanel.setMaximumSize(mainPanel.getMinimumSize());
     }
