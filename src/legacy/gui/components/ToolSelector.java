@@ -8,6 +8,7 @@ import legacy.gui.utils.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class ToolSelector {
     private JPanel mainPanel;
@@ -28,7 +29,7 @@ public class ToolSelector {
                 mainPanel, BorderLayoutPositions.NONE);
 
         toolTypesJComboBox = new JComboBox<>(((FishTypes)
-                fishSelector.getFishTypesJComboBox().getSelectedItem()).getToolTypes());
+                Objects.requireNonNull(fishSelector.getFishTypesJComboBox().getSelectedItem())).getToolTypes());
         SwingUtils.initializeComponent(toolTypesJComboBox, BorderFactory.createEmptyBorder(5, 5, 5, 5),
                 mainPanel, BorderLayoutPositions.NONE);
         fishSelector.getFishTypesJComboBox().addActionListener(e -> {

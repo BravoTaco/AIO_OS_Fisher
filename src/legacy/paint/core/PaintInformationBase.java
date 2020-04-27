@@ -36,6 +36,8 @@ public class PaintInformationBase implements PaintComponent {
         paintComponents.add(paintXpPerHour);
         paintTotalFishCaught = new PaintTotalFishCaught(storedInformation);
         paintComponents.add(paintTotalFishCaught);
+        PaintCaughtPerHour paintCaughtPerHour = new PaintCaughtPerHour(storedInformation);
+        paintComponents.add(paintCaughtPerHour);
     }
 
     public void addPaintComponent(PaintComponent paintComponent) {

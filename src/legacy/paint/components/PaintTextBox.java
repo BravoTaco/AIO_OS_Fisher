@@ -19,30 +19,25 @@ public abstract class PaintTextBox extends PaintRectangle {
 
     @Override
     public void drawComponent(Graphics2D g) {
-        g.setFont(defaultFont);
         if (useFill && useBorder) {
             g.setColor(backgroundColor.darker());
             g.fill(borderBackgroundRectangle);
             g.setColor(backgroundColor);
             g.fill(backgroundRectangle);
-            onBeforeDrawText(g);
             drawText(g);
         } else if (useFill) {
             g.setColor(backgroundColor);
             g.fill(backgroundRectangle);
-            onBeforeDrawText(g);
             drawText(g);
         } else if (useBorder) {
             g.setColor(backgroundColor.darker());
             g.draw(borderBackgroundRectangle);
             g.setColor(backgroundColor);
             g.draw(backgroundRectangle);
-            onBeforeDrawText(g);
             drawText(g);
         } else {
             g.setColor(backgroundColor);
             g.draw(backgroundRectangle);
-            onBeforeDrawText(g);
             drawText(g);
         }
     }
@@ -50,6 +45,9 @@ public abstract class PaintTextBox extends PaintRectangle {
     public abstract void onBeforeDrawText(Graphics2D g);
 
     private void drawText(Graphics2D g) {
+        g.setFont(defaultFont);
+        g.setColor(textColor);
+        onBeforeDrawText(g);
         PaintUtils.getInstance().drawCenteredString(g, backgroundRectangle, text);
     }
 }

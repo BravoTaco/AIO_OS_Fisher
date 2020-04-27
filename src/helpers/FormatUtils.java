@@ -14,4 +14,10 @@ public final class FormatUtils {
                 : (l > 1000) ? String.format("%.1fk", ((double) l / 1000))
                 : l + "";
     }
+
+    public static long calculateItemsPerHour(float runTimeInMillis, float gainedItems) {
+        if (gainedItems == 0) return 0;
+        float seconds = runTimeInMillis / 1000;
+        return (long) ((gainedItems / seconds) * 60 * 60);
+    }
 }
