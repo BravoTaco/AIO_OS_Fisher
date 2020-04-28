@@ -6,14 +6,15 @@ import enums.BotStates;
 import enums.FishTypes;
 import enums.Locations;
 import enums.ToolTypes;
-import legacy.gui.core.MainDialog;
+import gui.core.GUI;
 import helpers.*;
+import legacy.gui.core.MainDialog;
+import legacy.paint.components.PaintButton;
+import legacy.paint.core.PaintInformationBase;
 import org.osbot.rs07.api.ui.Message;
 import org.osbot.rs07.api.ui.Skill;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
-import legacy.paint.components.PaintButton;
-import legacy.paint.core.PaintInformationBase;
 import tasks.*;
 
 import java.awt.*;
@@ -23,15 +24,18 @@ import java.awt.*;
 public class OSBotScript extends Script {
 
     private StoredInformation storedInformation;
+    private GUI gui;
 
     @Override
     public void onStart() throws InterruptedException {
-        initializeUtils();
+        initializeInstances();
         storedInformation = SaveLoadUtil.getInstance().loadFile();
         if (storedInformation == null) {
             storedInformation = new StoredInformation();
             SaveLoadUtil.getInstance().save(storedInformation);
         }
+        gui = new GUI(storedInformation);
+        gui.show();
         MainDialog.getInstance(storedInformation).show();
         runInitialChecks();
         initializeTasks();
@@ -43,6 +47,8 @@ public class OSBotScript extends Script {
 
     @Override
     public int onLoop() throws InterruptedException {
+
+        getMouse().getOnCursorCount();
 
         storedInformation.getGeneralStoredInformation().setCurrentBotState(GeneralUtils.getInstance().getCurrentBotState());
 
@@ -74,7 +80,7 @@ public class OSBotScript extends Script {
     }
 
     @Override
-    public void onExit() throws InterruptedException {
+    public void onExit() {
         SaveLoadUtil.getInstance().save(storedInformation);
     }
 
@@ -179,7 +185,7 @@ public class OSBotScript extends Script {
         }
     }
 
-    private void initializeUtils() {
+    private void initializeInstances() {
         GeneralUtils.initializeInstance(bot);
         BankUtils.initializeInstance(bot);
         SleepUtils.initializeInstance(bot);

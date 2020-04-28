@@ -2,6 +2,7 @@ package helpers;
 
 import enums.ToolTypes;
 import org.osbot.rs07.Bot;
+import org.osbot.rs07.api.model.Entity;
 import org.osbot.rs07.api.model.NPC;
 import org.osbot.rs07.script.MethodProvider;
 
@@ -23,14 +24,14 @@ public final class FishingUtils extends MethodProvider {
     }
 
     public boolean fishingSpotExists(ToolTypes toolType) {
-        Object[] closestFishingSpots = getNpcs().getAll().stream().filter((e) -> e.hasAction(toolType.getAction())).toArray();
+        Object[] closestFishingSpots = getNpcs().getAll().stream().filter((e) -> containsAction(e, toolType.getAction())).toArray();
         return closestFishingSpots.length > 0;
     }
 
     public NPC getFishingSpot(ToolTypes toolType) {
         final NPC[] npc = new NPC[1];
         getNpcs().getAll().forEach((e) -> {
-            if (e.hasAction(toolType.getAction())) {
+            if (containsAction(e, toolType.getAction())) {
                 npc[0] = e;
             }
         });
@@ -47,5 +48,15 @@ public final class FishingUtils extends MethodProvider {
             String toolName = selectedToolType.getToolName();
             return getInventory().contains(toolName);
         }
+    }
+
+    private boolean containsAction(Entity entity, String action) {
+        if (entity.getActions() != null) {
+            for (String entityAction : entity.getActions()) {
+                if (entityAction != null && entityAction.toLowerCase().contains(action.toLowerCase()))
+                    return true;
+            }
+        }
+        return false;
     }
 }

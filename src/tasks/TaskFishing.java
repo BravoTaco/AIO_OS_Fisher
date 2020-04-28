@@ -5,6 +5,7 @@ import enums.ToolTypes;
 import helpers.FishingUtils;
 import helpers.SleepUtils;
 import org.osbot.rs07.Bot;
+import org.osbot.rs07.api.model.Entity;
 import org.osbot.rs07.api.model.NPC;
 import tasks.core.Task;
 
@@ -24,7 +25,7 @@ public class TaskFishing extends Task {
         if (selectedFishType == null) return false;
         return FishingUtils.getInstance().hasFishingSupplies(selectedToolType) &&
                 FishingUtils.getInstance().fishingSpotExists(selectedToolType) &&
-                !getInventory().isFull() || myPlayer().isAnimating();
+                !getInventory().isFull();
     }
 
     @Override
@@ -42,12 +43,12 @@ public class TaskFishing extends Task {
             return true;
         } else if (!myPlayer().isAnimating()) {
             NPC fishingSpot = FishingUtils.getInstance().getFishingSpot(selectedToolType);
-            if (fishingSpot != null && fishingSpot.interact(selectedToolType.getAction())) {
+            if (interact(fishingSpot, selectedToolType.getAction())) {
                 return SleepUtils.getInstance().sleepUntil(() -> myPlayer().isAnimating(), 10000, 100);
             } else if (fishingSpot == null) {
                 log("Fishing spot does not exist...");
                 return false;
-            } else if (!fishingSpot.interact(selectedToolType.getAction())) {
+            } else if (!interact(fishingSpot, selectedToolType.getAction())) {
                 log("Unable to interact with fishing spot...");
                 return false;
             }
@@ -59,5 +60,15 @@ public class TaskFishing extends Task {
     protected void onEndExecute() {
         String message = (hasFinishedSuccessfully) ? "TaskFishing completed successfully..." : "TaskFishing unable to be completed...";
         log(message);
+    }
+
+    private boolean interact(Entity entity, String action) {
+        if (entity != null && entity.getActions() != null) {
+            for (String s : entity.getActions()) {
+                if (s != null && s.toLowerCase().contains(action.toLowerCase()))
+                    return entity.interact(s);
+            }
+        }
+        return false;
     }
 }
