@@ -6,7 +6,6 @@ import enums.BotStates;
 import enums.FishTypes;
 import enums.Locations;
 import enums.ToolTypes;
-import gui.core.GUI;
 import helpers.*;
 import legacy.gui.core.MainDialog;
 import legacy.paint.components.PaintButton;
@@ -24,7 +23,6 @@ import java.awt.*;
 public class OSBotScript extends Script {
 
     private StoredInformation storedInformation;
-    private GUI gui;
 
     @Override
     public void onStart() throws InterruptedException {
@@ -34,8 +32,6 @@ public class OSBotScript extends Script {
             storedInformation = new StoredInformation();
             SaveLoadUtil.getInstance().save(storedInformation);
         }
-        gui = new GUI(storedInformation);
-        gui.show();
         MainDialog.getInstance(storedInformation).show();
         runInitialChecks();
         initializeTasks();
